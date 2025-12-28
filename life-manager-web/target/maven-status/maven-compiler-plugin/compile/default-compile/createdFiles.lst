@@ -1,0 +1,6 @@
+com\xiaoming\lifemanager\controller\NoteController.class
+com\xiaoming\lifemanager\controller\ScheduleController.class
+com\xiaoming\lifemanager\controller\UserController.class
+com\xiaoming\lifemanager\controller\CategoryController.class
+com\xiaoming\lifemanager\controller\FileStoreController.class
+com\xiaoming\lifemanager\controller\AccountBookController.class
