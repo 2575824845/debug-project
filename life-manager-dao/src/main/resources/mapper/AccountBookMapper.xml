@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoming.lifemanager.mapper.AccountBookMapper">
+    <insert id="addAccount" parameterType="com.xiaoming.lifemanager.entity.AccountBook">
+        INSERT INTO account_book (user_id, amount, type, category_id, date, note)
+        VALUES (#{userId}, #{amount}, #{type}, #{categoryId}, #{date}, #{note})
+    </insert>
+
+    <select id="selectByUserId" resultType="com.xiaoming.lifemanager.entity.AccountBook">
+        SELECT ab.*, c.name AS categoryName
+        FROM account_book ab
+                 LEFT JOIN category c ON ab.category_id = c.id
+        WHERE ab.user_id = #{userId}
+        ORDER BY ab.date DESC
+    </select>
+
+    <select id="selectByDateRange" resultType="com.xiaoming.lifemanager.entity.AccountBook">
+        SELECT ab.*, c.name AS categoryName
+        FROM account_book ab
+                 LEFT JOIN category c ON ab.category_id = c.id
+        WHERE ab.user_id = #{userId}
+          AND ab.date BETWEEN #{startDate} AND #{endDate}
+        ORDER BY ab.date DESC
+    </select>
+
+    <update id="updateAccount" parameterType="com.xiaoming.lifemanager.entity.AccountBook">
+        UPDATE account_book
+        SET amount = #{amount}, type = #{type}, category_id = #{categoryId},
+            date = #{date}, note = #{note}
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteAccount">
+        DELETE FROM account_book WHERE id = #{id}
+    </delete>
+
+    <!-- 统计月收入和支出 -->
+    <select id="selectMonthlyStatistics" resultType="com.xiaoming.lifemanager.entity.AccountBookStatistics">
+        SELECT 
+            #{userId} as userId,
+            #{month} as month,
+            SUM(CASE WHEN type = 1 THEN amount ELSE 0 END) as totalIncome,
+            SUM(CASE WHEN type = 0 THEN amount ELSE 0 END) as totalExpense,
+            (SUM(CASE WHEN type = 1 THEN amount ELSE 0 END) - SUM(CASE WHEN type = 0 THEN amount ELSE 0 END)) as balance
+        FROM account_book
+        WHERE user_id = #{userId} AND DATE_FORMAT(date, '%Y-%m') = #{month}
+    </select>
+
+    <!-- 按分类统计收支 -->
+    <select id="selectCategoryStatistics" resultType="com.xiaoming.lifemanager.entity.AccountBookStatistics$CategoryStatistics">
+        SELECT 
+            ab.category_id as categoryId,
+            c.name as categoryName,
+            ab.type as type,
+            SUM(ab.amount) as amount
+        FROM account_book ab
+        LEFT JOIN category c ON ab.category_id = c.id
+        WHERE ab.user_id = #{userId} AND DATE_FORMAT(ab.date, '%Y-%m') = #{month}
+        GROUP BY ab.category_id, ab.type, c.name
+    </select>
+</mapper>

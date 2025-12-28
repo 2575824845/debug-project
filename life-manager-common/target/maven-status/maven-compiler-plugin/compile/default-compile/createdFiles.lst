@@ -1,0 +1,9 @@
+com\xiaoming\lifemanager\entity\AccountBookStatistics$CategoryStatistics.class
+com\xiaoming\lifemanager\entity\Note.class
+com\xiaoming\lifemanager\entity\AccountBookStatistics.class
+com\xiaoming\lifemanager\entity\FileStore.class
+com\xiaoming\lifemanager\entity\User.class
+com\xiaoming\lifemanager\common\Result.class
+com\xiaoming\lifemanager\entity\AccountBook.class
+com\xiaoming\lifemanager\entity\Category.class
+com\xiaoming\lifemanager\entity\Schedule.class

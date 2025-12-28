@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoming.lifemanager.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.xiaoming.lifemanager.entity.Category">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="icon" property="icon" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.xiaoming.lifemanager.entity.Category">
+        insert into category (user_id, name, type, icon, create_time, update_time)
+        values (#{userId}, #{name}, #{type}, #{icon}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update" parameterType="com.xiaoming.lifemanager.entity.Category">
+        update category
+        set user_id = #{userId},
+            name = #{name},
+            type = #{type},
+            icon = #{icon},
+            update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from category where id = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from category where id = #{id}
+    </select>
+
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from category where user_id = #{userId}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from category
+    </select>
+</mapper>

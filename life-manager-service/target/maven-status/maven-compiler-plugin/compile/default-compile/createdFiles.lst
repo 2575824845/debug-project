@@ -1,0 +1,12 @@
+com\xiaoming\lifemanager\service\FileStoreService.class
+com\xiaoming\lifemanager\service\CategoryService.class
+com\xiaoming\lifemanager\service\impl\AccountBookServiceImpl.class
+com\xiaoming\lifemanager\service\UserService.class
+com\xiaoming\lifemanager\service\impl\UserServiceImpl.class
+com\xiaoming\lifemanager\service\impl\FileStoreServiceImpl.class
+com\xiaoming\lifemanager\service\ScheduleService.class
+com\xiaoming\lifemanager\service\AccountBookService.class
+com\xiaoming\lifemanager\service\impl\CategoryServiceImpl.class
+com\xiaoming\lifemanager\service\impl\ScheduleServiceImpl.class
+com\xiaoming\lifemanager\service\NoteService.class
+com\xiaoming\lifemanager\service\impl\NoteServiceImpl.class

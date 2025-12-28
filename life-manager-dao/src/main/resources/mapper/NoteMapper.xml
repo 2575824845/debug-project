@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoming.lifemanager.mapper.NoteMapper">
+    <insert id="addNote" parameterType="com.xiaoming.lifemanager.entity.Note">
+        INSERT INTO note (user_id, title, content, tag_id, is_top, create_time, update_time)
+        VALUES (#{userId}, #{title}, #{content}, #{tagId}, #{isTop}, NOW(), NOW())
+    </insert>
+
+    <select id="selectByUserId" resultType="com.xiaoming.lifemanager.entity.Note">
+        SELECT n.*, c.name AS tagName
+        FROM note n
+        LEFT JOIN category c ON n.tag_id = c.id
+        WHERE n.user_id = #{userId}
+        <if test="tagId != null">AND n.tag_id = #{tagId}</if>
+        ORDER BY n.is_top DESC, n.update_time DESC
+    </select>
+
+    <select id="searchByTitle" resultType="com.xiaoming.lifemanager.entity.Note">
+        SELECT n.*, c.name AS tagName
+        FROM note n
+                 LEFT JOIN category c ON n.tag_id = c.id
+        WHERE n.user_id = #{userId}
+          AND n.title LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY n.is_top DESC, n.update_time DESC
+    </select>
+
+    <update id="updateTopStatus">
+        UPDATE note SET is_top = #{isTop}, update_time = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="updateNote" parameterType="com.xiaoming.lifemanager.entity.Note">
+        UPDATE note
+        SET title = #{title}, content = #{content}, tag_id = #{tagId},
+            is_top = #{isTop}, update_time = NOW()
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteNote">
+        DELETE FROM note WHERE id = #{id}
+    </delete>
+</mapper>
